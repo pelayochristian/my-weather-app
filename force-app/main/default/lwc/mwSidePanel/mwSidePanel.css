@@ -1,0 +1,46 @@
+.side-panel {
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
+    background-color: white;
+    border: none;
+}
+
+.weather-temperature {
+    font-size: 50px;
+    font-weight: 200;
+}
+
+.weather-date-time {
+    font-size: 26px;
+    font-weight: 200;
+}
+
+.weather-secondary-indicator {
+    font-size: 14px;
+    font-weight: 300;
+}
+
+.secondary-indicator-icon {
+    width: 50px;
+}
+
+.weather-location {
+    background-color: #d9d9d9;
+    border-radius: 18px;
+}
+
+.weather-location p {
+    font-weight: 300;
+}
+
+.search-location {
+    border-radius: 35px;
+    height: 40px;
+    background-color: #f6f6f8;
+    border: none;
+    font-weight: 200;
+}
+
+.search-location:focus {
+    outline: none;
+}

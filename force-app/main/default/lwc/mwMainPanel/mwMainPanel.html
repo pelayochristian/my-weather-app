@@ -1,0 +1,159 @@
+<!--
+  @description       : 
+  @author            : pelayochristian.dev@gmail.com
+  @last modified on  : 07-01-2022
+  @last modified by  : pelayochristian.dev@gmail.com
+-->
+<template>
+	<div class="main-panel slds-box slds-p-horizontal_xx-large slds-p-vertical_xx-large">
+		<div class="slds-m-bottom_xx-large">
+			<div class="slds-m-bottom_x-large">
+				<p class="week-forcast-text">Week Forecast</p>
+			</div>
+			<div>
+				<div class="slds-grid slds-gutters">
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={rain}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={partlyCloudy}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={cloudy}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={thunderstormsDayRain}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={thunderstormsDayRain}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={partlyCloudy}></c-mw-day-forecast-card>
+					</div>
+					<div class="slds-col">
+						<c-mw-day-forecast-card weather-icons={rain}></c-mw-day-forecast-card>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="slds-m-bottom_x-large">
+				<p class="week-forcast-text">Today’s Highlights</p>
+			</div>
+			<div class="slds-m-bottom_medium">
+				<div class="slds-grid slds-gutters">
+					<!-- UV Index Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">UV Index</span>
+							<p slot="primary-metric" class="primary-metric">5</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={uvIndex5Icon} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">Average</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+					<!-- Wind Status Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">Wind Status</span>
+							<p slot="primary-metric" class="primary-metric">7.70
+								<span class="wind-status-unit">km/h</span>
+							</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={compass} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">WSW</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+					<!-- Sunrise & Sunset Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">Sunrise & Sunset</span>
+							<p slot="primary-metric" class="primary-metric">4</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={timeMorning} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">Time</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+				</div>
+			</div>
+			<div>
+				<div class="slds-grid slds-gutters">
+					<!-- Humidity Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">Humidity</span>
+							<p slot="primary-metric" class="primary-metric">12%</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={codeGreenIcon} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">Normal</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+					<!-- Visibility Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">Visibility</span>
+							<p slot="primary-metric" class="primary-metric">5.2
+								<span class="wind-status-unit">km</span>
+							</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={codeYellowIcon} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">Average</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+					<!-- Air & Quality Slot -->
+					<div class="slds-col">
+						<c-mw-highlight-slot>
+							<span slot="highlight-header">Air & Quality</span>
+							<p slot="primary-metric" class="primary-metric">105</p>
+							<div slot="secondary-metric">
+								<div class="slds-grid">
+									<div>
+										<img src={codeRedIcon} alt="Wind Direction" width="40px">
+									</div>
+									<div class="slds-p-vertical_x-small">
+										<p class="secondary-metric">Air & Quality</p>
+									</div>
+								</div>
+							</div>
+						</c-mw-highlight-slot>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</template>

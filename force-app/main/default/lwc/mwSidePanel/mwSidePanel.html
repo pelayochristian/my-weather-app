@@ -1,0 +1,56 @@
+<!-- sldsValidatorIgnore -->
+<!--
+  @description       : Side Panel Html Component contains:
+						- Search Location
+						- Today's Weather Icons
+						- Today's Temperature forecast
+						- Today's Secondary forecast
+  @author            : pelayochristian.dev@gmail.com
+  @last modified on  : 07-01-2022
+  @last modified by  : pelayochristian.dev@gmail.com
+-->
+<template>
+	<div class="side-panel slds-box slds-p-horizontal_xx-large slds-p-vertical_xx-large">
+		<div class="search-wrapper">
+			<div class="slds-form-element">
+				<div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+					<svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+						aria-hidden="true">
+						<use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+					</svg>
+					<input type="text" id="search-location-input" placeholder="Search for places . . ."
+						class="slds-input search-location" />
+				</div>
+			</div>
+		</div>
+		<div class="weather-icon-wrapper slds-align_absolute-center">
+			<img src={partlyCloudy} alt="weather-icon" class="weather-icon">
+		</div>
+		<div class="weather-temp-wrapper slds-m-bottom_x-large">
+			<h3 class="weather-temperature">35°C</h3>
+			<p class="weather-date-time">Monday, 16:00</p>
+			<hr>
+			<div class="slds-grid slds-grid_vertical">
+				<div class="slds-col">
+					<div class="slds-clearfix slds-align_absolute-center slds-float_left">
+						<img src={cloudy} alt="weather-icon" class="secondary-indicator-icon">
+						<div class="slds-m-left_small">
+							<p class="weather-secondary-indicator slds-m-right_left">Mostly Cloudy</p>
+						</div>
+					</div>
+				</div>
+				<div class="slds-col">
+					<div class="slds-clearfix slds-align_absolute-center slds-float_left">
+						<img src={rain} alt="weather-icon" class="secondary-indicator-icon">
+						<div class="slds-m-left_small">
+							<p class="weather-secondary-indicator">Rain - 30%</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="weather-location slds-align_absolute-center slds-box slds-p-vertical_x-large">
+			<p>Cebu City, Philippines</p>
+		</div>
+	</div>
+</template>
