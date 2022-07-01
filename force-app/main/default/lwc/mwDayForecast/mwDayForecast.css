@@ -1,0 +1,13 @@
+.weather-icon {
+    width: 88px;
+}
+
+.day-forecast-box {
+    background-color: white;
+    border-radius: 12px;
+    border: none;
+}
+
+.day-forecast-box p {
+    font-weight: 300;
+}

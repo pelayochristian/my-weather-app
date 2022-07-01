@@ -1,0 +1,15 @@
+.dashboard-wrapper {
+    background-color: #F6F6F8;
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
+    border-top-right-radius: 35px;
+    border-bottom-right-radius: 35px;
+}
+
+.dashboard-wrapper .slds-col:first-child {
+    padding-left: 0;
+}
+
+.dashboard-wrapper .slds-col:nth-child(2) {
+    padding-right: 0;
+}
