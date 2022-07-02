@@ -1,9 +1,10 @@
 .dashboard-wrapper {
-    background-color: #F6F6F8;
+    background-color: #f6f6f8;
     border-top-left-radius: 35px;
     border-bottom-left-radius: 35px;
     border-top-right-radius: 35px;
     border-bottom-right-radius: 35px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.1);
 }
 
 .dashboard-wrapper .slds-col:first-child {
