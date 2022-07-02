@@ -1,0 +1,21 @@
+.main-panel {
+    border: none;
+}
+
+.week-forcast-text {
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.primary-metric {
+    font-size: 45px;
+    font-weight: 200;
+}
+
+.secondary-metric {
+    font-weight: 300;
+}
+
+.wind-status-unit {
+    font-size: 18px;
+}
