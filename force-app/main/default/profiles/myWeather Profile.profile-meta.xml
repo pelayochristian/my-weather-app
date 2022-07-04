@@ -17,5 +17,10 @@
         <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>My_Weather_Config__mdt.Value__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <userLicense>Guest User License</userLicense>
 </Profile>

@@ -51,5 +51,9 @@
 		<members>MWMeteocons</members>
 		<name>StaticResource</name>
 	</types>
+	<types>
+		<members>My_Weather_Config__mdt</members>
+		<name>CustomObject</name>
+	</types>
 	<version>53.0</version>
 </Package>
