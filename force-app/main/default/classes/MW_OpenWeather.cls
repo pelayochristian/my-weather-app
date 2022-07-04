@@ -1,14 +1,18 @@
 /**
  * @description       :
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-04-2022
+ * @last modified on  : 07-05-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public class MW_OpenWeather {
     public class Weather {
+        @AuraEnabled
         public Integer id { get; set; }
+        @AuraEnabled
         public String main { get; set; }
+        @AuraEnabled
         public String description { get; set; }
+        @AuraEnabled
         public String icon { get; set; }
 
         public Weather(JSONParser parser) {
@@ -39,7 +43,9 @@ public class MW_OpenWeather {
     }
 
     public class Coord {
+        @AuraEnabled
         public Integer lon { get; set; }
+        @AuraEnabled
         public Integer lat { get; set; }
 
         public Coord(JSONParser parser) {
@@ -65,8 +71,11 @@ public class MW_OpenWeather {
     }
 
     public class Wind {
+        @AuraEnabled
         public Double speed { get; set; }
+        @AuraEnabled
         public Integer deg { get; set; }
+        @AuraEnabled
         public Double gust { get; set; }
 
         public Wind(JSONParser parser) {
@@ -94,6 +103,7 @@ public class MW_OpenWeather {
     }
 
     public class Clouds {
+        @AuraEnabled
         public Integer all { get; set; }
 
         public Clouds(JSONParser parser) {
@@ -117,18 +127,31 @@ public class MW_OpenWeather {
         }
     }
 
+    @AuraEnabled
     public Coord coord { get; set; }
+    @AuraEnabled
     public List<Weather> weather { get; set; }
+    @AuraEnabled
     public String base { get; set; }
+    @AuraEnabled
     public Main main { get; set; }
+    @AuraEnabled
     public Integer visibility { get; set; }
+    @AuraEnabled
     public Wind wind { get; set; }
+    @AuraEnabled
     public Clouds clouds { get; set; }
+    @AuraEnabled
     public Integer dt { get; set; }
+    @AuraEnabled
     public Sys sys { get; set; }
+    @AuraEnabled
     public Integer timezone { get; set; }
+    @AuraEnabled
     public Integer id { get; set; }
+    @AuraEnabled
     public String name { get; set; }
+    @AuraEnabled
     public Integer cod { get; set; }
 
     public MW_OpenWeather(JSONParser parser) {
@@ -176,8 +199,11 @@ public class MW_OpenWeather {
     }
 
     public class Sys {
+        @AuraEnabled
         public String country { get; set; }
+        @AuraEnabled
         public Integer sunrise { get; set; }
+        @AuraEnabled
         public Integer sunset { get; set; }
 
         public Sys(JSONParser parser) {
@@ -205,13 +231,21 @@ public class MW_OpenWeather {
     }
 
     public class Main {
+        @AuraEnabled
         public Double temp { get; set; }
+        @AuraEnabled
         public Double feels_like { get; set; }
+        @AuraEnabled
         public Double temp_min { get; set; }
+        @AuraEnabled
         public Double temp_max { get; set; }
+        @AuraEnabled
         public Integer pressure { get; set; }
+        @AuraEnabled
         public Integer humidity { get; set; }
+        @AuraEnabled
         public Integer sea_level { get; set; }
+        @AuraEnabled
         public Integer grnd_level { get; set; }
 
         public Main(JSONParser parser) {

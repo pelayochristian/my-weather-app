@@ -38,3 +38,18 @@ $RECYCLE.BIN/
 
 # Local environment variables
 .env
+
+# Ignore files for Production
+.gitignore
+.husky/
+.prettierignore
+.prettierrc
+.vscode/
+README.md
+config/
+jest.config.js
+# manifest/
+package.json
+scripts/
+sfdx-project.json
+.eslintignore
