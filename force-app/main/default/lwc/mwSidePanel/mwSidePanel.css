@@ -25,12 +25,13 @@
 }
 
 .weather-location {
-    background-color: #d9d9d9;
+    /* background-color: #d9d9d9; */
     border-radius: 18px;
 }
 
 .weather-location p {
-    font-weight: 300;
+    font-weight: 400;
+    color: white;
 }
 
 .search-location {
@@ -43,4 +44,18 @@
 
 .search-location:focus {
     outline: none;
+}
+
+.current-time {
+    color: #b8b8b8;
+}
+
+.weather-description {
+    font-size: 17px;
+    font-weight: 200;
+    color: #b8b8b8;
+}
+.location-image {
+    object-fit: cover;
+    filter: brightness(0.4);
 }
