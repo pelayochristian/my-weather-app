@@ -40,16 +40,16 @@ $RECYCLE.BIN/
 .env
 
 # Ignore files for Production
-.gitignore
-.husky/
-.prettierignore
-.prettierrc
-.vscode/
-README.md
-config/
-jest.config.js
+# .gitignore
+# .husky/
+# .prettierignore
+# .prettierrc
+# .vscode/
+# README.md
+# config/
+# jest.config.js
 # manifest/
-package.json
-scripts/
-sfdx-project.json
-.eslintignore
+# package.json
+# scripts/
+# sfdx-project.json
+# .eslintignore
