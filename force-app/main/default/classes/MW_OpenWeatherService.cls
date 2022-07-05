@@ -31,8 +31,8 @@ public with sharing class MW_OpenWeatherService {
      * @return MW_OpenWeather
      **/
     public static MW_OpenWeather getCurrentWeatherForecast(
-        Integer longitude,
-        Integer latitude,
+        Decimal longitude,
+        Decimal latitude,
         String unitType
     ) {
         MW_OpenWeather currentWeather = null;

@@ -7,8 +7,8 @@
 public class MW_OpenWeatherController {
     @AuraEnabled(cacheable=true)
     public static MW_OpenWeather getCurrentWeatherForecastService(
-        Integer longitude,
-        Integer latitude,
+        Decimal longitude,
+        Decimal latitude,
         String unitType
     ) {
         return MW_OpenWeatherService.getCurrentWeatherForecast(
