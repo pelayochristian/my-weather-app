@@ -1,15 +1,16 @@
 /**
  * @description       : Side Panel Section contains the business logic of the components.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-05-2022
+ * @last modified on  : 07-06-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 import { LightningElement, wire } from "lwc";
 import WEATHER_ICON_SVG from "@salesforce/resourceUrl/MWMeteocons";
-import getCurrentWeatherForecastService from "@salesforce/apex/MW_OpenWeatherController.getCurrentWeatherForecastService";
+import getWeatherForecast from "@salesforce/apex/MW_OpenWeatherOneCallController.getWeatherForecastService";
 import CITY_IMAGE from "@salesforce/resourceUrl/MWAssets";
+import { fireEvent } from "c/pubsub";
 
-const weatherIcons = {
+const WEATHER_ICONS = {
     "01d": `${WEATHER_ICON_SVG}/meteocons-weather-icons/clear-day.svg`,
     "01n": `${WEATHER_ICON_SVG}/meteocons-weather-icons/clear-night.svg`,
     "02d": `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`,
@@ -32,49 +33,92 @@ const weatherIcons = {
 
 export default class MwSidePanel extends LightningElement {
     // SVG Icons
-    //partlyCloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`;
     cloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/cloudy.svg`;
     rain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/rain.svg`;
-    //thunderstormsDayRain = `${WEATHER_ICON_SVG}/thunderstorms-day-rain.svg`;
     cityImage = `${CITY_IMAGE}/mw-assets/city2.jpeg`;
 
-    currentTemperature = 0;
-    currentWeatherIcon = "";
+    // Side Panel Attributes
+    currentTemperature;
+    currentWeatherIcon;
+    secondaryWeatherIcon;
+    secondaryWeatherDescription;
+    currentDateTime;
+    currentDay;
+    currentTime;
+    currentLocation;
+    cloudyPercentage;
+    weatherDescription;
+    oneHourRain;
     isDataAvailable = false;
-    currentDateTime = null;
-    currentDay = null;
-    currentTime = null;
-    currentLocation = "";
-    cloudyPercentage = 0;
-    weatherDescription = "";
+    isIneHourRainForecastAvailable = false;
 
-    @wire(getCurrentWeatherForecastService, {
+    /**
+     * Wired method used for calling the getWeatherForecast
+     * method from the MW_OpenWeatherOneCallController.
+     * @param {*} param0
+     */
+    @wire(getWeatherForecast, {
         longitude: 123.891,
         latitude: 10.317,
         unitType: "metric"
     })
-    getCurrentWeatherForecastService({ error, data }) {
+    getWeatherForecast({ error, data }) {
         if (data) {
-            this.isDataAvailable = true;
-            this.currentTemperature = Math.round(data.main.temp);
-            this.getCurrentWeatherIcon(data.weather);
-            this.currentDateTime = new Date(data.dt * 1000);
-            this.currentLocation = `${data.name}, ${data.sys.country}`;
-            this.cloudyPercentage = data.clouds.all;
-            this.currentDay = this.currentDateTime.toLocaleString("en-us", {
-                weekday: "long"
-            });
-            this.currentTime =
-                this.currentDateTime.getHours() +
-                ":" +
-                this.currentDateTime.getMinutes();
-            console.log("@@@CHAN data -> ", data);
+            this.getSidePanelAttributes(data);
+            this.getTodaysHighlightsAttribute(data);
+            console.log("@@@CHAN weather_forecast -> ", data);
         } else {
-            console.log(
-                "Error in MwSidePanel.getCurrentWeatherForecastService() :",
-                error
-            );
+            console.log("Error in MwSidePanel.getWeatherForecast() :", error);
         }
+    }
+
+    /**
+     * Method used for setting up the data needed for
+     * side Panel.
+     * @param {Object} response
+     * @returns void
+     */
+    getSidePanelAttributes(response) {
+        if (response == null) return;
+        this.isDataAvailable = true;
+        //this.currentLocation = `${data.name}, ${data.sys.country}`;
+        this.currentTemperature = Math.round(response.current.temp);
+        this.getCurrentWeatherIcon(response.current.weather);
+        this.currentDateTime = new Date(response.current.dt * 1000);
+        this.cloudyPercentage = response.current.clouds;
+        this.currentDay = this.currentDateTime.toLocaleString("en-us", {
+            weekday: "long"
+        });
+        this.currentTime = this.currentDateTime.toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true
+        });
+
+        if (response.current.rain) {
+            this.isIneHourRainForecastAvailable = true;
+            this.oneHourRain = response.current.rain.oneHour;
+        }
+    }
+
+    /**
+     * Get the needed attribute for todays highlights and
+     * published a Custom Event.
+     * @param {Object} response
+     * @returns void
+     */
+    getTodaysHighlightsAttribute(response) {
+        if (response == null) return;
+        // Published an custom event
+        fireEvent(this, "todaysHighlightEvt", {
+            uvi: response.current.uvi,
+            wind_speed: response.current.wind_speed,
+            wind_deg: response.current.wind_deg,
+            sunrise: response.current.sunrise,
+            sunset: response.current.sunset,
+            humidity: response.current.humidity,
+            visibility: response.current.visibility
+        });
     }
 
     /**
@@ -86,12 +130,25 @@ export default class MwSidePanel extends LightningElement {
      */
     getCurrentWeatherIcon(weather) {
         if (weather == null) return;
+        // Primary Weather Icon and Description
         this.weatherDescription = weather[0].description;
         this.currentWeatherIcon = JSON.parse(
-            JSON.stringify(weatherIcons[weather[0].icon])
+            JSON.stringify(WEATHER_ICONS[weather[0].icon])
         );
+
+        // Secondary Weather Icon and Description
+        if (weather[1]) {
+            this.secondaryWeatherDescription = weather[1].description;
+            this.secondaryWeatherIcon = JSON.parse(
+                JSON.stringify(WEATHER_ICONS[weather[1].icon])
+            );
+        }
     }
 
+    /**
+     * Method used for setting up the custom background style
+     * of the current location panel.
+     */
     get locationBackgroundStyle() {
         return `background-image: linear-gradient(
                 rgba(0, 0, 0, 0.5), 
