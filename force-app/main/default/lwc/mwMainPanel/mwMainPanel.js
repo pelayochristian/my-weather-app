@@ -9,12 +9,6 @@ import { LightningElement } from "lwc";
 import WEATHER_ICON_SVG from "@salesforce/resourceUrl/MWMeteocons";
 import { registerListener, unregisterListener } from "c/pubsub";
 export default class MwMainPanel extends LightningElement {
-    // TODO: Remove after integration in week forecast
-    partlyCloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`;
-    cloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/cloudy.svg`;
-    rain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/rain.svg`;
-    thunderstormsDayRain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/thunderstorms-day-rain.svg`;
-
     // SVG Icons
     compass = `${WEATHER_ICON_SVG}/meteocons-weather-icons/compass.svg`;
     sunriseIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/sunrise.svg`;
@@ -187,7 +181,7 @@ export default class MwMainPanel extends LightningElement {
         } else if (this.humidity >= LOW_MIN && this.humidity < LOW_MAX) {
             this.humidityLevel = "Fair";
             this.humidityAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-orange.svg`;
-        } else if (this.humidityAlertLevelIcon < CRITICAL_LOW) {
+        } else if (this.humidity < CRITICAL_LOW) {
             this.humidityLevel = "Poor low humidity";
             this.humidityAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-red.svg`;
         }

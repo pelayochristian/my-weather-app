@@ -1,19 +1,39 @@
 <!--
   @description       : 
   @author            : pelayochristian.dev@gmail.com
-  @last modified on  : 07-01-2022
+  @last modified on  : 07-07-2022
   @last modified by  : pelayochristian.dev@gmail.com
 -->
 <template>
-    <div class="slds-box day-forecast-box">
-        <div class="slds-align_absolute-center">
-            <p class="">Sun</p>
+    <template if:true={isActive}>
+        <div class="slds-box day-forecast-box active-card">
+            <div class="slds-align_absolute-center">
+                <p class="">{dayName}</p>
+            </div>
+            <div class="slds-align_absolute-center">
+                <img src={weatherIcon} alt="" class="weather-icon" />
+            </div>
+            <div class="slds-align_absolute-center">
+                <p class="daily-temp">
+                    {dayTemp}° -
+                    <span class="night-temp-active">{nightTemp}°</span>
+                </p>
+            </div>
         </div>
-        <div class="slds-align_absolute-center">
-            <img src={weatherIcons} alt="" class="weather-icon">
+    </template>
+    <template if:false={isActive}>
+        <div class="slds-box day-forecast-box">
+            <div class="slds-align_absolute-center">
+                <p class="">{dayName}</p>
+            </div>
+            <div class="slds-align_absolute-center">
+                <img src={weatherIcon} alt="" class="weather-icon" />
+            </div>
+            <div class="slds-align_absolute-center">
+                <p class="daily-temp">
+                    {dayTemp}° - <span class="night-temp">{nightTemp}°</span>
+                </p>
+            </div>
         </div>
-        <div class="slds-align_absolute-center">
-            <p>15° - 3°</p>
-        </div>
-    </div>
+    </template>
 </template>

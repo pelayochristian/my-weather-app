@@ -66,6 +66,7 @@ export default class MwSidePanel extends LightningElement {
         if (data) {
             this.getSidePanelAttributes(data);
             this.getTodaysHighlightsAttribute(data);
+            this.getWeekForecast(data);
             console.log("@@@CHAN weather_forecast -> ", data);
         } else {
             console.log("Error in MwSidePanel.getWeatherForecast() :", error);
@@ -102,14 +103,28 @@ export default class MwSidePanel extends LightningElement {
     }
 
     /**
+     * Get the needed attribute for Week Forecast and
+     * published using pubsub.
+     * @param {Object} response
+     * @returns void
+     */
+    getWeekForecast(response) {
+        if (response == null) return;
+        // Published an event
+        fireEvent(this, "weekForecastEvt", {
+            daily: response.daily
+        });
+    }
+
+    /**
      * Get the needed attribute for todays highlights and
-     * published a Custom Event.
+     * published using pubsub.
      * @param {Object} response
      * @returns void
      */
     getTodaysHighlightsAttribute(response) {
         if (response == null) return;
-        // Published an custom event
+        // Published an event
         fireEvent(this, "todaysHighlightEvt", {
             uvi: response.current.uvi,
             wind_speed: response.current.wind_speed,
