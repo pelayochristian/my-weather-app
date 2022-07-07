@@ -1,7 +1,7 @@
 <!--
-  @description       : 
+  @description       : Main Panel View Template
   @author            : pelayochristian.dev@gmail.com
-  @last modified on  : 07-06-2022
+  @last modified on  : 07-07-2022
   @last modified by  : pelayochristian.dev@gmail.com
 -->
 <template>
@@ -115,13 +115,13 @@
                     <div class="slds-col">
                         <c-mw-highlight-slot>
                             <span slot="highlight-header">Wind Status</span>
-                            <template if:true={isWindStatusAvailable}>
+                            <template if:true={windStatus}>
                                 <p slot="primary-metric" class="primary-metric">
                                     {windStatus}
                                     <span class="wind-status-unit">m/s</span>
                                 </p>
                             </template>
-                            <template if:false={isWindStatusAvailable}>
+                            <template if:false={windStatus}>
                                 <div
                                     slot="primary-metric"
                                     class="demo-only"
@@ -237,17 +237,6 @@
                                     </div>
                                 </div>
                             </template>
-                            <!-- <p slot="primary-metric" class="primary-metric">4</p> -->
-                            <!-- <div slot="secondary-metric">
-								<div class="slds-grid">
-									<div>
-										<img src={timeMorning} alt="Wind Direction" width="40px">
-									</div>
-									<div class="slds-p-vertical_x-small">
-										<p class="secondary-metric">Time</p>
-									</div>
-								</div>
-							</div> -->
                         </c-mw-highlight-slot>
                     </div>
                 </div>
@@ -258,12 +247,12 @@
                     <div class="slds-col">
                         <c-mw-highlight-slot>
                             <span slot="highlight-header">Humidity</span>
-                            <template if:true={isHumidityAvailable}>
+                            <template if:true={humidity}>
                                 <p slot="primary-metric" class="primary-metric">
                                     {humidity}%
                                 </p>
                             </template>
-                            <template if:false={isHumidityAvailable}>
+                            <template if:false={humidity}>
                                 <div
                                     slot="primary-metric"
                                     class="demo-only"
@@ -361,28 +350,56 @@
                             </div>
                         </c-mw-highlight-slot>
                     </div>
-                    <!-- Air & Quality Slot -->
+                    <!-- Dew Point -->
                     <div class="slds-col">
                         <c-mw-highlight-slot>
-                            <span slot="highlight-header">Air & Quality</span>
-                            <p slot="primary-metric" class="primary-metric">
-                                105
-                            </p>
-                            <div slot="secondary-metric">
-                                <div class="slds-grid">
-                                    <div>
-                                        <img
-                                            src={codeRedIcon}
-                                            alt="Wind Direction"
-                                            width="40px"
-                                        />
-                                    </div>
-                                    <div class="slds-p-vertical_x-small">
-                                        <p class="secondary-metric">
-                                            Air & Quality
-                                        </p>
+                            <span slot="highlight-header">Dew Point</span>
+                            <template if:true={dew_point}>
+                                <p slot="primary-metric" class="primary-metric">
+                                    {dew_point}°C
+                                </p>
+                            </template>
+                            <template if:false={dew_point}>
+                                <div
+                                    slot="primary-metric"
+                                    class="demo-only"
+                                    style="height: 66.5px; position: relative"
+                                >
+                                    <div class="slds-spinner_container">
+                                        <div
+                                            role="status"
+                                            class="slds-spinner slds-spinner_medium slds-spinner_brand"
+                                        >
+                                            <span class="slds-assistive-text"
+                                                >Loading</span
+                                            >
+                                            <div
+                                                class="slds-spinner__dot-a"
+                                            ></div>
+                                            <div
+                                                class="slds-spinner__dot-b"
+                                            ></div>
+                                        </div>
                                     </div>
                                 </div>
+                            </template>
+                            <div slot="secondary-metric">
+                                <template if:true={dewPointLevel}>
+                                    <div class="slds-grid">
+                                        <div>
+                                            <img
+                                                src={dewPointAlertLevelIcon}
+                                                alt="Wind Direction"
+                                                width="40px"
+                                            />
+                                        </div>
+                                        <div class="slds-p-vertical_x-small">
+                                            <p class="secondary-metric">
+                                                {dewPointLevel}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </template>
                             </div>
                         </c-mw-highlight-slot>
                     </div>

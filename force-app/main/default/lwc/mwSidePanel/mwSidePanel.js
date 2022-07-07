@@ -1,7 +1,7 @@
 /**
  * @description       : Side Panel Section contains the business logic of the components.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-06-2022
+ * @last modified on  : 07-07-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 import { LightningElement, wire } from "lwc";
@@ -81,7 +81,7 @@ export default class MwSidePanel extends LightningElement {
     getSidePanelAttributes(response) {
         if (response == null) return;
         this.isDataAvailable = true;
-        //this.currentLocation = `${data.name}, ${data.sys.country}`;
+        this.currentLocation = "Build In-Progress";
         this.currentTemperature = Math.round(response.current.temp);
         this.getCurrentWeatherIcon(response.current.weather);
         this.currentDateTime = new Date(response.current.dt * 1000);
@@ -117,7 +117,8 @@ export default class MwSidePanel extends LightningElement {
             sunrise: response.current.sunrise,
             sunset: response.current.sunset,
             humidity: response.current.humidity,
-            visibility: response.current.visibility
+            visibility: response.current.visibility,
+            dew_point: response.current.dew_point
         });
     }
 

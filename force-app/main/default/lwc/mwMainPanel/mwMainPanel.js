@@ -1,7 +1,7 @@
 /**
  * @description       : Main Panel Contains the business logic of the component.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-06-2022
+ * @last modified on  : 07-07-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 
@@ -9,24 +9,19 @@ import { LightningElement } from "lwc";
 import WEATHER_ICON_SVG from "@salesforce/resourceUrl/MWMeteocons";
 import { registerListener, unregisterListener } from "c/pubsub";
 export default class MwMainPanel extends LightningElement {
+    // TODO: Remove after integration in week forecast
     partlyCloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`;
     cloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/cloudy.svg`;
     rain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/rain.svg`;
     thunderstormsDayRain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/thunderstorms-day-rain.svg`;
+
+    // SVG Icons
     compass = `${WEATHER_ICON_SVG}/meteocons-weather-icons/compass.svg`;
-    codeGreenIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-green.svg`;
-    codeYellowIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-yellow.svg`;
-    codeRedIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-red.svg`;
-    codeOrangeIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-orange.svg`;
-    uvIndex5Icon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index-5.svg`;
-    timeMorning = `${WEATHER_ICON_SVG}/meteocons-weather-icons/time-morning.svg`;
     sunriseIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/sunrise.svg`;
     sunsetIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/sunset.svg`;
 
-    uviIconsIndicator;
-
     // Todays Highlight Attributes
-    uvi;
+    uvi = 0;
     windStatus = 0;
     sunrise = "";
     sunset = "";
@@ -34,21 +29,24 @@ export default class MwMainPanel extends LightningElement {
     visibility = 0;
     wind_deg = 0;
     windDirection = "";
+    dew_point = 0;
 
     // payload checker
     isUVIAvailable = false;
-    isWindStatusAvailable = false;
-    isHumidityAvailable = false;
     isVisibilityAvailable = false;
     isWindDirectionAvailable = false;
     isSunsetSunriseAvailable = false;
+    isDewPointAvailable = false;
 
     // miscellaneous
+    uviIconsIndicator;
     uvRadiationLevel;
     visibilityLevel;
     visibilityAlertLevelIcon;
     humidityAlertLevelIcon;
     humidityLevel;
+    dewPointLevel;
+    dewPointAlertLevelIcon;
 
     connectedCallback() {
         // Subscribe todaysHighlightEvt
@@ -74,8 +72,9 @@ export default class MwMainPanel extends LightningElement {
      * @param {Object} payload
      */
     handleTodaysHighlightEvt(payload) {
+        // DEW POINT
+        this.setDewPointPanelAttributes(payload);
         // WIND STATUS
-        this.isWindStatusAvailable = payload.wind_speed ? true : false;
         this.windStatus = payload.wind_speed.toFixed(1);
         // UVI
         this.setUVIndexPanelAttributes(payload);
@@ -83,11 +82,9 @@ export default class MwMainPanel extends LightningElement {
         this.setHumidityPanelAttributes(payload);
         // VISIBILITY
         this.setVisibilityPanelAttributes(payload);
-
         // WIND DEGREE
         this.isWindDirectionAvailable = payload.wind_deg ? true : false;
         this.windDirection = this.getCardinalDirection(payload.wind_deg);
-
         // SUNSET & SUNRISE
         this.isSunsetSunriseAvailable =
             payload.sunrise && payload.sunrise ? true : false;
@@ -109,6 +106,62 @@ export default class MwMainPanel extends LightningElement {
 
     /**
      * Method used for setting up the necessary
+     * attributes in Dew Point Panel.
+     * @param {Object} payload
+     */
+    setDewPointPanelAttributes(payload) {
+        const VERY_DRY = 10,
+            COMFORTABLE_MIN = 10,
+            COMFORTABLE_MAX = 12.8,
+            PLEASANT_MIN = 13.3,
+            PLEASANT_MAX = 15.6,
+            SLIGHTLY_HUMID_MIN = 16.1,
+            SLIGHTLY_HUMID_MAX = 18.3,
+            HUMID_MIN = 18.9,
+            HUMID_MAX = 21.1,
+            VERY_HUMID_MIN = 21.7,
+            VERY_HUMID_MAX = 23.9,
+            OPPRESSIVE = 24.4;
+        this.isDewPointAvailable = payload.dew_point ? true : false;
+        this.dew_point = payload.dew_point.toFixed(1);
+        if (this.dew_point < VERY_DRY) {
+            this.dewPointLevel = "Very Dry";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-green.svg`;
+        } else if (
+            this.dew_point >= COMFORTABLE_MIN &&
+            this.dew_point <= COMFORTABLE_MAX
+        ) {
+            this.dewPointLevel = "Comfortable";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-green.svg`;
+        } else if (
+            this.dew_point >= PLEASANT_MIN &&
+            this.dew_point <= PLEASANT_MAX
+        ) {
+            this.dewPointLevel = "Pleasant";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-yellow.svg`;
+        } else if (
+            this.dew_point >= SLIGHTLY_HUMID_MIN &&
+            this.dew_point <= SLIGHTLY_HUMID_MAX
+        ) {
+            this.dewPointLevel = "Slightly Humid";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-yellow.svg`;
+        } else if (this.dew_point >= HUMID_MIN && this.dew_point <= HUMID_MAX) {
+            this.dewPointLevel = "Humid";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-orange.svg`;
+        } else if (
+            this.dew_point >= VERY_HUMID_MIN &&
+            this.dew_point <= VERY_HUMID_MAX
+        ) {
+            this.dewPointLevel = "Very Humid";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-red.svg`;
+        } else if (this.dew_point >= OPPRESSIVE) {
+            this.dewPointLevel = "Oppressive";
+            this.dewPointAlertLevelIcon = `${WEATHER_ICON_SVG}/meteocons-weather-icons/code-red.svg`;
+        }
+    }
+
+    /**
+     * Method used for setting up the necessary
      * attributes in Humidity Panel.
      * @param {Object} payload
      */
@@ -121,7 +174,6 @@ export default class MwMainPanel extends LightningElement {
             LOW_MAX = 30,
             LOW_MIN = 25,
             CRITICAL_LOW = 25;
-        this.isHumidityAvailable = payload.humidity ? true : false;
         this.humidity = payload.humidity;
         if (this.humidity >= CRITICAL_HIGH) {
             this.humidityLevel = "Poor high humidity";
@@ -227,10 +279,15 @@ export default class MwMainPanel extends LightningElement {
 
         this.isUVIAvailable = payload.uvi || payload.uvi === 0 ? true : false;
         this.uvi = Math.round(payload.uvi);
-        this.uviIconsIndicator =
-            this.uvi === 0
-                ? `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index.svg`
-                : (this.uviIconsIndicator = `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index-${this.uvi}.svg`);
+
+        if (this.uvi >= 0 && this.uvi <= 10) {
+            this.uviIconsIndicator =
+                this.uvi === 0
+                    ? `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index.svg`
+                    : (this.uviIconsIndicator = `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index-${this.uvi}.svg`);
+        } else {
+            this.uviIconsIndicator = `${WEATHER_ICON_SVG}/meteocons-weather-icons/uv-index-11.svg`;
+        }
 
         // UV Radiation Scale Conditions
         if (this.uvi >= LOW_MIN && this.uvi <= LOW_MAX) {
@@ -245,6 +302,7 @@ export default class MwMainPanel extends LightningElement {
             this.uvRadiationLevel = "Extreme";
         }
     }
+
     /**
      * Utility method to return Cardinal Direction by
      * consuming Direction angle.
