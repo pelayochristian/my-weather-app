@@ -30,12 +30,12 @@
 	<types>
 		<members>mwBaseTemplate</members>
 		<members>mwDashboardWrapper</members>
-		<members>mwDayForecast</members>
 		<members>mwDayForecastCard</members>
 		<members>mwFooter</members>
 		<members>mwHighlightSlot</members>
 		<members>mwMainPanel</members>
 		<members>mwSidePanel</members>
+		<members>mwWeekForecastPanel</members>
 		<members>pubsub</members>
 		<name>LightningComponentBundle</name>
 	</types>
