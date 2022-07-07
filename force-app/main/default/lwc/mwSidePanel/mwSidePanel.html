@@ -6,7 +6,7 @@
 						- Today's Temperature forecast
 						- Today's Secondary forecast
   @author            : pelayochristian.dev@gmail.com
-  @last modified on  : 07-05-2022
+  @last modified on  : 07-06-2022
   @last modified by  : pelayochristian.dev@gmail.com
 -->
 <template>
@@ -85,6 +85,43 @@
                 <p class="weather-date-time">{currentDay}, {currentTime}</p>
                 <hr />
                 <div class="slds-grid slds-grid_vertical">
+                    <template if:true={isIneHourRainForecastAvailable}>
+                        <div class="slds-col">
+                            <div
+                                class="slds-clearfix slds-align_absolute-center slds-float_left"
+                            >
+                                <img
+                                    src={rain}
+                                    alt="weather-icon"
+                                    class="secondary-indicator-icon"
+                                />
+                                <div class="slds-m-left_small">
+                                    <p class="weather-secondary-indicator">
+                                        Rain - {oneHourRain}mm
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={secondaryWeatherIcon}>
+                        <div class="slds-col">
+                            <div
+                                class="slds-clearfix slds-align_absolute-center slds-float_left"
+                            >
+                                <img
+                                    src={secondaryWeatherIcon}
+                                    alt="weather-icon"
+                                    class="secondary-indicator-icon"
+                                />
+                                <div class="slds-m-left_small">
+                                    <p class="weather-secondary-indicator">
+                                        {secondaryWeatherDescription}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
                     <div class="slds-col">
                         <div
                             class="slds-clearfix slds-align_absolute-center slds-float_left"
@@ -103,14 +140,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- <div class="slds-col">
-						<div class="slds-clearfix slds-align_absolute-center slds-float_left">
-							<img src={rain} alt="weather-icon" class="secondary-indicator-icon">
-							<div class="slds-m-left_small">
-								<p class="weather-secondary-indicator">Rain - 30%</p>
-							</div>
-						</div>
-					</div> -->
                 </div>
             </div>
         </template>

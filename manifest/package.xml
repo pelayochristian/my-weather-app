@@ -3,6 +3,10 @@
 	<types>
 		<members>MW_OpenWeather</members>
 		<members>MW_OpenWeatherController</members>
+		<members>MW_OpenWeatherOneCall</members>
+		<members>MW_OpenWeatherOneCallController</members>
+		<members>MW_OpenWeatherOneCallService</members>
+		<members>MW_OpenWeatherOneCall_Test</members>
 		<members>MW_OpenWeatherService</members>
 		<members>MW_OpenWeather_Test</members>
 		<name>ApexClass</name>
@@ -14,6 +18,10 @@
 	<types>
 		<members>My_Weather_Config.Open_Weather_API_Key</members>
 		<name>CustomMetadata</name>
+	</types>
+	<types>
+		<members>My_Weather_Config__mdt</members>
+		<name>CustomObject</name>
 	</types>
 	<types>
 		<members>myWeather1</members>
@@ -28,6 +36,7 @@
 		<members>mwHighlightSlot</members>
 		<members>mwMainPanel</members>
 		<members>mwSidePanel</members>
+		<members>pubsub</members>
 		<name>LightningComponentBundle</name>
 	</types>
 	<types>
@@ -50,10 +59,6 @@
 		<members>MWAssets</members>
 		<members>MWMeteocons</members>
 		<name>StaticResource</name>
-	</types>
-	<types>
-		<members>My_Weather_Config__mdt</members>
-		<name>CustomObject</name>
 	</types>
 	<version>53.0</version>
 </Package>
