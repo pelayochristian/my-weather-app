@@ -49,6 +49,13 @@ export default class MwMainPanel extends LightningElement {
             this.handleTodaysHighlightEvt,
             this
         );
+
+        // Subscribe to changeLocationEvt
+        registerListener(
+            "changeLocationEvt",
+            this.handleChangeLocationEvt,
+            this
+        );
     }
 
     disconnectedCallback() {
@@ -58,6 +65,37 @@ export default class MwMainPanel extends LightningElement {
             this.handleTodaysHighlightEvt,
             this
         );
+
+        // Unsubscribe to changeLocationEvt
+        unregisterListener(
+            "changeLocationEvt",
+            this.handleChangeLocationEvt,
+            this
+        );
+    }
+
+    /**
+     * Subscriber function for the 'changeLocationEvt' which
+     * contains the attribute for location onchange.
+     * @param {Object} payload
+     */
+    handleChangeLocationEvt(payload) {
+        if (payload == null) return;
+        let locationIsChanged = payload.isChanged;
+        if (locationIsChanged) {
+            // Set main & secondary attribute to default value for refresh
+            this.isUVIAvailable = false;
+            this.uviIconsIndicator = "";
+            this.windStatus = 0;
+            this.windDirection = "";
+            this.isSunsetSunriseAvailable = false;
+            this.humidity = 0;
+            this.humidityLevel = "";
+            this.visibility = 0;
+            this.visibilityLevel = "";
+            this.dew_point = 0;
+            this.dewPointLevel = "";
+        }
     }
 
     /**
