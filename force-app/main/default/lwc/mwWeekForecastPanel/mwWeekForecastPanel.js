@@ -1,7 +1,7 @@
 /**
  * @description       : Week Forecast Panel Business logic.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-07-2022
+ * @last modified on  : 07-08-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 import { LightningElement } from "lwc";
@@ -21,11 +21,38 @@ export default class MwWeekForecastPanel extends LightningElement {
     connectedCallback() {
         // Subscribe todaysHighlightEvt
         registerListener("weekForecastEvt", this.handleWeekForecastEvt, this);
+
+        // Subscribe to changeLocationEvt
+        registerListener(
+            "changeLocationEvt",
+            this.handleChangeLocationEvt,
+            this
+        );
     }
 
     disconnectedCallback() {
         // Unsubscribe todaysHighlightEvt
         unregisterListener("weekForecastEvt", this.handleWeekForecastEvt, this);
+
+        // Unsubscribe to changeLocationEvt
+        unregisterListener(
+            "changeLocationEvt",
+            this.handleChangeLocationEvt,
+            this
+        );
+    }
+
+    /**
+     * Subscriber function for the 'changeLocationEvt' which
+     * contains the attribute for location onchange.
+     * @param {Object} payload
+     */
+    handleChangeLocationEvt(payload) {
+        if (payload == null) return;
+        let locationIsChanged = payload.isChanged;
+        if (locationIsChanged) {
+            this.weekForecast = null;
+        }
     }
 
     /**

@@ -18,8 +18,9 @@
                 <div class="slds-form-element__control">
                     <div class="slds-combobox_container">
                         <div
-                            class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                            class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click location-dropdown"
                         >
+                            <!-- Location Input field -->
                             <div
                                 class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
                                 role="none"
@@ -35,6 +36,7 @@
                                     autocomplete="off"
                                     role="combobox"
                                     placeholder="Search..."
+                                    onchange={geoLocationValueOnChange}
                                 />
                                 <span
                                     class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right"
@@ -49,6 +51,7 @@
                                     </svg>
                                 </span>
                             </div>
+                            <!-- Location Dropdown -->
                             <div
                                 id="listbox-id-9"
                                 class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid search-location-dropdown"
@@ -58,86 +61,107 @@
                                     class="slds-listbox slds-listbox_vertical"
                                     role="presentation"
                                 >
-                                    <li
-                                        role="presentation"
-                                        class="slds-listbox__item"
+                                    <template
+                                        for:each={geoLocationList}
+                                        for:item="location"
+                                        for:index="key"
                                     >
-                                        <div
-                                            id="option1"
-                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
-                                            role="option"
+                                        <li
+                                            role="presentation"
+                                            class="slds-listbox__item"
+                                            key={location.latitude}
+                                            data-name={location.name}
+                                            data-country={location.country}
+                                            data-latitude={location.lat}
+                                            data-longitude={location.lon}
+                                            data-state={location.state}
+                                            onclick={handleOnclickGeoLocation}
                                         >
-                                            <span
-                                                class="slds-media__figure slds-listbox__option-icon"
-                                            ></span>
-                                            <span class="slds-media__body">
+                                            <div
+                                                id={key}
+                                                class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                                role="option"
+                                            >
                                                 <span
-                                                    class="slds-truncate"
-                                                    title="Burlington Textiles Corp of America"
-                                                    >Cebu City, PH</span
+                                                    class="slds-media__figure slds-listbox__option-icon slds-m-top_xx-small"
                                                 >
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <li
-                                        role="presentation"
-                                        class="slds-listbox__item"
-                                    >
-                                        <div
-                                            id="option2"
-                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
-                                            role="option"
-                                        >
-                                            <span
-                                                class="slds-media__figure slds-listbox__option-icon"
-                                            ></span>
-                                            <span class="slds-media__body">
-                                                <span
-                                                    class="slds-truncate"
-                                                    title="Dickenson plc"
-                                                    >Manila City, PH</span
-                                                >
-                                            </span>
-                                        </div>
-                                    </li>
-                                    <li
-                                        role="presentation"
-                                        class="slds-listbox__item"
-                                    >
-                                        <div
-                                            id="option3"
-                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
-                                            role="option"
-                                        >
-                                            <span
-                                                class="slds-media__figure slds-listbox__option-icon"
-                                            ></span>
-                                            <span class="slds-media__body">
-                                                <span
-                                                    class="slds-truncate"
-                                                    title="Edge Communications"
-                                                    >Davao City, PH</span
-                                                >
-                                            </span>
-                                        </div>
-                                    </li>
+                                                    <template
+                                                        if:true={location.flagURL}
+                                                    >
+                                                        <img
+                                                            src={location.flagURL}
+                                                        />
+                                                    </template>
+                                                </span>
+                                                <span class="slds-media__body">
+                                                    <div class="slds-grid">
+                                                        <!-- Location and Flag -->
+                                                        <div
+                                                            class="slds-col_bump-right"
+                                                        >
+                                                            <div
+                                                                class="slds-grid slds-grid_vertical"
+                                                            >
+                                                                <div
+                                                                    class="slds-col"
+                                                                >
+                                                                    <span
+                                                                        class="slds-truncate"
+                                                                        title="Burlington Textiles Corp of America"
+                                                                        >{location.name},
+                                                                        {location.country}
+                                                                    </span>
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col"
+                                                                >
+                                                                    <template
+                                                                        if:true={location.state}
+                                                                    >
+                                                                        <span
+                                                                            class="slds-truncate location-state"
+                                                                            >{location.state}</span
+                                                                        >
+                                                                    </template>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <!-- Latitude and Longitude -->
+                                                        <div>
+                                                            <div
+                                                                class="slds-grid slds-grid_vertical"
+                                                            >
+                                                                <div
+                                                                    class="slds-col"
+                                                                >
+                                                                    <p
+                                                                        class="location-lat-and-lon slds-float_right"
+                                                                    >
+                                                                        {location.lat}
+                                                                    </p>
+                                                                </div>
+                                                                <div
+                                                                    class="slds-col"
+                                                                >
+                                                                    <p
+                                                                        class="location-lat-and-lon slds-float_right"
+                                                                    >
+                                                                        {location.lon}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </template>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- <div class="slds-form-element">
-                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
-                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
-                        aria-hidden="true">
-                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
-                    </svg>
-                    <input type="text" id="search-location-input" placeholder="Search for places . . ."
-                        class="slds-input search-location" />
-                </div>
-            </div> -->
         </div>
         <div class="weather-icon-wrapper slds-align_absolute-center">
             <template if:false={isDataAvailable}>
@@ -189,7 +213,8 @@
                 <p class="weather-date-time">{currentDay}, {currentTime}</p>
                 <hr />
                 <div class="slds-grid slds-grid_vertical">
-                    <template if:true={isIneHourRainForecastAvailable}>
+                    <!-- One Hour Rain Forecast if Available -->
+                    <template if:true={isOneHourRainForecastAvailable}>
                         <div class="slds-col">
                             <div
                                 class="slds-clearfix slds-align_absolute-center slds-float_left"
@@ -207,6 +232,7 @@
                             </div>
                         </div>
                     </template>
+                    <!-- Secondary Weather Icon -->
                     <template if:true={secondaryWeatherIcon}>
                         <div class="slds-col">
                             <div
@@ -225,7 +251,7 @@
                             </div>
                         </div>
                     </template>
-
+                    <!-- Cloudy Percentage -->
                     <div class="slds-col">
                         <div
                             class="slds-clearfix slds-align_absolute-center slds-float_left"
@@ -252,7 +278,16 @@
             class="weather-location slds-align_absolute-center slds-box slds-p-vertical_xx-large slds-m-bottom_large"
             style={locationBackgroundStyle}
         >
-            <p>{currentLocation}</p>
+            <div class="slds-grid slds-grid_vertical">
+                <div class="slds-col">
+                    <p>{currentLocation}</p>
+                </div>
+                <template if:true={pickedState}>
+                    <div class="slds-col">
+                        <p class="location-state">{pickedState}</p>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 </template>

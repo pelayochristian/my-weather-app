@@ -12,6 +12,8 @@ public with sharing class MW_OpenWeatherGeoLocation {
     @AuraEnabled
     public Double lon;
     @AuraEnabled
+    public String state;
+    @AuraEnabled
     public String country;
 
     public static List<MW_OpenWeatherGeoLocation> parse(String json) {
