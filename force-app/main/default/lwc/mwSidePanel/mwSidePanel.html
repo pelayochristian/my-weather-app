@@ -6,7 +6,7 @@
 						- Today's Temperature forecast
 						- Today's Secondary forecast
   @author            : pelayochristian.dev@gmail.com
-  @last modified on  : 07-06-2022
+  @last modified on  : 07-08-2022
   @last modified by  : pelayochristian.dev@gmail.com
 -->
 <template>
@@ -15,25 +15,129 @@
     >
         <div class="search-wrapper">
             <div class="slds-form-element">
-                <div
-                    class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left"
-                >
-                    <svg
-                        class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
-                        aria-hidden="true"
-                    >
-                        <use
-                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"
-                        ></use>
-                    </svg>
-                    <input
-                        type="text"
-                        id="search-location-input"
-                        placeholder="Search for places . . ."
-                        class="slds-input search-location"
-                    />
+                <div class="slds-form-element__control">
+                    <div class="slds-combobox_container">
+                        <div
+                            class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open"
+                        >
+                            <div
+                                class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right"
+                                role="none"
+                            >
+                                <input
+                                    type="text"
+                                    class="slds-input slds-combobox__input search-location"
+                                    id="combobox-id-11"
+                                    aria-autocomplete="list"
+                                    aria-controls="listbox-id-9"
+                                    aria-expanded="false"
+                                    aria-haspopup="listbox"
+                                    autocomplete="off"
+                                    role="combobox"
+                                    placeholder="Search..."
+                                />
+                                <span
+                                    class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right"
+                                >
+                                    <svg
+                                        class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default"
+                                        aria-hidden="true"
+                                    >
+                                        <use
+                                            xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"
+                                        ></use>
+                                    </svg>
+                                </span>
+                            </div>
+                            <div
+                                id="listbox-id-9"
+                                class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid search-location-dropdown"
+                                role="listbox"
+                            >
+                                <ul
+                                    class="slds-listbox slds-listbox_vertical"
+                                    role="presentation"
+                                >
+                                    <li
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            id="option1"
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span
+                                                class="slds-media__figure slds-listbox__option-icon"
+                                            ></span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="slds-truncate"
+                                                    title="Burlington Textiles Corp of America"
+                                                    >Cebu City, PH</span
+                                                >
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            id="option2"
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span
+                                                class="slds-media__figure slds-listbox__option-icon"
+                                            ></span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="slds-truncate"
+                                                    title="Dickenson plc"
+                                                    >Manila City, PH</span
+                                                >
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li
+                                        role="presentation"
+                                        class="slds-listbox__item"
+                                    >
+                                        <div
+                                            id="option3"
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option"
+                                        >
+                                            <span
+                                                class="slds-media__figure slds-listbox__option-icon"
+                                            ></span>
+                                            <span class="slds-media__body">
+                                                <span
+                                                    class="slds-truncate"
+                                                    title="Edge Communications"
+                                                    >Davao City, PH</span
+                                                >
+                                            </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+
+            <!-- <div class="slds-form-element">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left">
+                    <svg class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
+                        aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                    </svg>
+                    <input type="text" id="search-location-input" placeholder="Search for places . . ."
+                        class="slds-input search-location" />
+                </div>
+            </div> -->
         </div>
         <div class="weather-icon-wrapper slds-align_absolute-center">
             <template if:false={isDataAvailable}>

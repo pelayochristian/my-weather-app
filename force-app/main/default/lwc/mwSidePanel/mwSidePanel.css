@@ -46,6 +46,10 @@
     outline: none;
 }
 
+.search-location-dropdown {
+    background-color: white;
+}
+
 .current-time {
     color: #b8b8b8;
 }

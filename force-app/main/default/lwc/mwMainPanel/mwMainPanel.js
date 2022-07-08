@@ -1,7 +1,7 @@
 /**
  * @description       : Main Panel Contains the business logic of the component.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-07-2022
+ * @last modified on  : 07-08-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 
@@ -106,16 +106,16 @@ export default class MwMainPanel extends LightningElement {
     setDewPointPanelAttributes(payload) {
         const VERY_DRY = 10,
             COMFORTABLE_MIN = 10,
-            COMFORTABLE_MAX = 12.8,
-            PLEASANT_MIN = 13.3,
-            PLEASANT_MAX = 15.6,
-            SLIGHTLY_HUMID_MIN = 16.1,
-            SLIGHTLY_HUMID_MAX = 18.3,
-            HUMID_MIN = 18.9,
-            HUMID_MAX = 21.1,
-            VERY_HUMID_MIN = 21.7,
-            VERY_HUMID_MAX = 23.9,
-            OPPRESSIVE = 24.4;
+            COMFORTABLE_MAX = 13,
+            PLEASANT_MIN = 13,
+            PLEASANT_MAX = 16,
+            SLIGHTLY_HUMID_MIN = 16,
+            SLIGHTLY_HUMID_MAX = 18,
+            HUMID_MIN = 18,
+            HUMID_MAX = 21,
+            VERY_HUMID_MIN = 21,
+            VERY_HUMID_MAX = 24,
+            OPPRESSIVE = 24;
         this.isDewPointAvailable = payload.dew_point ? true : false;
         this.dew_point = payload.dew_point.toFixed(1);
         if (this.dew_point < VERY_DRY) {
