@@ -1,4 +1,4 @@
-# Weather Dashboard on Salesforce Experience Cloud
+# Weather Dashboard on SF Experience Cloud
 
 ![](demo.gif)
 
