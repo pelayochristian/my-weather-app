@@ -55,10 +55,6 @@
 		<name>Profile</name>
 	</types>
 	<types>
-		<members>shieldsio</members>
-		<name>RemoteSiteSetting</name>
-	</types>
-	<types>
 		<members>MWAssets</members>
 		<members>MWMeteocons</members>
 		<name>StaticResource</name>
