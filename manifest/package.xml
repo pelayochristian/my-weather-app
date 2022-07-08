@@ -3,6 +3,8 @@
 	<types>
 		<members>MW_OpenWeather</members>
 		<members>MW_OpenWeatherController</members>
+		<members>MW_OpenWeatherGeoLocation</members>
+		<members>MW_OpenWeatherGeoLocation_Test</members>
 		<members>MW_OpenWeatherOneCall</members>
 		<members>MW_OpenWeatherOneCallController</members>
 		<members>MW_OpenWeatherOneCallService</members>
@@ -12,6 +14,7 @@
 		<name>ApexClass</name>
 	</types>
 	<types>
+		<members>openweathermap</members>
 		<members>shieldsio</members>
 		<name>CspTrustedSite</name>
 	</types>

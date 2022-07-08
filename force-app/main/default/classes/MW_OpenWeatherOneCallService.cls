@@ -8,7 +8,7 @@
 public with sharing class MW_OpenWeatherOneCallService {
     private static final String OW_CURRENT_WEATHER_API = 'data/2.5/onecall?exclude=hourly,minutely,alerts';
     private static final String OW_GEOLOCATION_API = 'geo/1.0/direct';
-    private static final Integer OW_GEOLOCATION_LIMIT = 5;
+    private static final Integer OW_GEOLOCATION_LIMIT = 7;
     private static final String API_KEY = '8aebdc1199ded002eb077a3e12dadab2';
     private static final Integer DEFAULT_LATITUDE = 13;
     private static final Integer DEFAULT_LONGITUDE = 122;
@@ -48,6 +48,8 @@ public with sharing class MW_OpenWeatherOneCallService {
                 unitType +
                 '&appId=' +
                 API_KEY;
+
+            System.debug('@@@CHAN -> ' + endPoint);
 
             Http http = new Http();
             HttpRequest httpRequest = new HttpRequest();
