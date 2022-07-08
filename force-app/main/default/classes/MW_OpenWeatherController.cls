@@ -1,7 +1,7 @@
 /**
  * @description       :
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-06-2022
+ * @last modified on  : 07-05-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public class MW_OpenWeatherController {
@@ -16,5 +16,16 @@ public class MW_OpenWeatherController {
             latitude,
             unitType
         );
+    }
+
+    @AuraEnabled(cacheable=true)
+    public static String callMethod() {
+        String returnStr = '';
+        try {
+            returnStr = 'Test Method';
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+        return returnStr;
     }
 }
