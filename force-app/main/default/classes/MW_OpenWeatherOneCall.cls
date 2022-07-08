@@ -1,7 +1,7 @@
 /**
- * @description       :
+ * @description       : Open Weather One Call DAO
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-07-2022
+ * @last modified on  : 07-08-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public with sharing class MW_OpenWeatherOneCall {
