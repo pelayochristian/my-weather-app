@@ -38,6 +38,7 @@
 		<members>mwHighlightSlot</members>
 		<members>mwMainPanel</members>
 		<members>mwSidePanel</members>
+		<members>mwTodaysHighlightPanel</members>
 		<members>mwWeekForecastPanel</members>
 		<members>pubsub</members>
 		<name>LightningComponentBundle</name>
