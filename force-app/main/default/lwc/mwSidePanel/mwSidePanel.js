@@ -1,15 +1,17 @@
 /**
  * @description       : Side Panel Section contains the business logic of the components.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-05-2022
+ * @last modified on  : 07-09-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 import { LightningElement, wire } from "lwc";
 import WEATHER_ICON_SVG from "@salesforce/resourceUrl/MWMeteocons";
-import getCurrentWeatherForecastService from "@salesforce/apex/MW_OpenWeatherController.getCurrentWeatherForecastService";
+import getWeatherForecast from "@salesforce/apex/MW_OpenWeatherOneCallController.getWeatherForecastService";
+import getGeoLocations from "@salesforce/apex/MW_OpenWeatherOneCallController.getGeoLocationsService";
 import CITY_IMAGE from "@salesforce/resourceUrl/MWAssets";
+import { fireEvent } from "c/pubsub";
 
-const weatherIcons = {
+const WEATHER_ICONS = {
     "01d": `${WEATHER_ICON_SVG}/meteocons-weather-icons/clear-day.svg`,
     "01n": `${WEATHER_ICON_SVG}/meteocons-weather-icons/clear-night.svg`,
     "02d": `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`,
@@ -32,49 +34,159 @@ const weatherIcons = {
 
 export default class MwSidePanel extends LightningElement {
     // SVG Icons
-    //partlyCloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/partly-cloudy-day.svg`;
     cloudy = `${WEATHER_ICON_SVG}/meteocons-weather-icons/cloudy.svg`;
     rain = `${WEATHER_ICON_SVG}/meteocons-weather-icons/rain.svg`;
-    //thunderstormsDayRain = `${WEATHER_ICON_SVG}/thunderstorms-day-rain.svg`;
     cityImage = `${CITY_IMAGE}/mw-assets/city2.jpeg`;
 
-    currentTemperature = 0;
-    currentWeatherIcon = "";
+    // Side Panel Attributes
+    currentTemperature;
+    currentWeatherIcon;
+    secondaryWeatherIcon;
+    secondaryWeatherDescription;
+    currentDateTime;
+    currentDay;
+    currentTime;
+    cloudyPercentage;
+    weatherDescription;
+    oneHourRain;
     isDataAvailable = false;
-    currentDateTime = null;
-    currentDay = null;
-    currentTime = null;
-    currentLocation = "";
-    cloudyPercentage = 0;
-    weatherDescription = "";
+    isOneHourRainForecastAvailable = false;
+    locationQuery = "";
+    geoLocationList;
+    locationCountryFlagUrl = "";
+    currentLocation = "Cebu City, Cebu"; // Set Default to Cebu City, PH
 
-    @wire(getCurrentWeatherForecastService, {
-        longitude: 123.891,
-        latitude: 10.317,
+    // Search Attribute
+    pickedLatitude = 10.317; // Set Default to Cebu City, PH latitude
+    pickedLongitude = 123.891; // Set Default to Cebu City, PH longitude
+    pickedLocationName;
+    pickedCountry;
+    pickedState;
+
+    //longitude: 123.891,
+    //latitude: 10.317,
+    //unitType: "metric"
+
+    /**
+     * Wired method used for calling the getWeatherForecast
+     * method from the MW_OpenWeatherOneCallController.
+     * @param {*} param0
+     */
+    @wire(getWeatherForecast, {
+        longitude: "$pickedLongitude",
+        latitude: "$pickedLatitude",
         unitType: "metric"
     })
-    getCurrentWeatherForecastService({ error, data }) {
+    getWeatherForecast({ error, data }) {
         if (data) {
-            this.isDataAvailable = true;
-            this.currentTemperature = Math.round(data.main.temp);
-            this.getCurrentWeatherIcon(data.weather);
-            this.currentDateTime = new Date(data.dt * 1000);
-            this.currentLocation = `${data.name}, ${data.sys.country}`;
-            this.cloudyPercentage = data.clouds.all;
-            this.currentDay = this.currentDateTime.toLocaleString("en-us", {
-                weekday: "long"
-            });
-            this.currentTime =
-                this.currentDateTime.getHours() +
-                ":" +
-                this.currentDateTime.getMinutes();
-            console.log("@@@CHAN data -> ", data);
+            this.getSidePanelAttributes(data);
+            this.getTodaysHighlightsAttribute(data);
+            this.getWeekForecast(data);
+            console.log("@@@CHAN weather_forecast -> ", data);
         } else {
-            console.log(
-                "Error in MwSidePanel.getCurrentWeatherForecastService() :",
-                error
-            );
+            if (error) {
+                console.error(
+                    "Error in MwSidePanel.getWeatherForecast() :",
+                    error
+                );
+            }
         }
+    }
+
+    /**
+     * Wired method used for calling the getGeoLocations
+     * method from the MW_OpenWeatherOneCallController.
+     * @param {String} param0
+     */
+    @wire(getGeoLocations, {
+        query: "$locationQuery"
+    })
+    getGeoLocations({ error, data }) {
+        if (data && data.length > 0) {
+            let locationDropdown =
+                this.template.querySelector(".location-dropdown");
+            if (locationDropdown) {
+                this.template.querySelector(".location-dropdown").className =
+                    "slds-is-open";
+            }
+            const updatedGeoLocations = data.map((item) => ({
+                ...item,
+                flagURL:
+                    `http://openweathermap.org/images/flags/${item.country}.png`.toLowerCase()
+            }));
+            this.geoLocationList = updatedGeoLocations;
+        } else {
+            if (error) {
+                console.error(
+                    "Error in MwSidePanel.getGeoLocations() :",
+                    error
+                );
+            }
+        }
+    }
+
+    /**
+     * Method used for setting up the data needed for
+     * side Panel.
+     * @param {Object} response
+     * @returns void
+     */
+    getSidePanelAttributes(response) {
+        if (response == null) return;
+        this.isDataAvailable = true;
+        // this.currentLocation = "Build In-Progress";
+        this.currentTemperature = Math.round(response.current.temp);
+        this.getCurrentWeatherIcon(response.current.weather);
+        this.currentDateTime = new Date(response.current.dt * 1000);
+        this.cloudyPercentage = response.current.clouds;
+        this.currentDay = this.currentDateTime.toLocaleString("en-us", {
+            weekday: "long"
+        });
+        this.currentTime = this.currentDateTime.toLocaleString("en-US", {
+            hour: "numeric",
+            minute: "numeric",
+            hour12: true
+        });
+
+        if (response.current.rain) {
+            this.isOneHourRainForecastAvailable = true;
+            this.oneHourRain = response.current.rain.oneHour;
+        }
+    }
+
+    /**
+     * Get the needed attribute for Week Forecast and
+     * published using pubsub.
+     * @param {Object} response
+     * @returns void
+     */
+    getWeekForecast(response) {
+        if (response == null) return;
+        // Published an event
+        fireEvent(this, "weekForecastEvt", {
+            daily: response.daily
+        });
+    }
+
+    /**
+     * Get the needed attribute for todays highlights and
+     * published using pubsub.
+     * @param {Object} response
+     * @returns void
+     */
+    getTodaysHighlightsAttribute(response) {
+        if (response == null) return;
+        // Published an event
+        fireEvent(this, "todaysHighlightEvt", {
+            uvi: response.current.uvi,
+            wind_speed: response.current.wind_speed,
+            wind_deg: response.current.wind_deg,
+            sunrise: response.current.sunrise,
+            sunset: response.current.sunset,
+            humidity: response.current.humidity,
+            visibility: response.current.visibility,
+            dew_point: response.current.dew_point
+        });
     }
 
     /**
@@ -86,12 +198,25 @@ export default class MwSidePanel extends LightningElement {
      */
     getCurrentWeatherIcon(weather) {
         if (weather == null) return;
+        // Primary Weather Icon and Description
         this.weatherDescription = weather[0].description;
         this.currentWeatherIcon = JSON.parse(
-            JSON.stringify(weatherIcons[weather[0].icon])
+            JSON.stringify(WEATHER_ICONS[weather[0].icon])
         );
+
+        // Secondary Weather Icon and Description
+        if (weather[1]) {
+            this.secondaryWeatherDescription = weather[1].description;
+            this.secondaryWeatherIcon = JSON.parse(
+                JSON.stringify(WEATHER_ICONS[weather[1].icon])
+            );
+        }
     }
 
+    /**
+     * Method used for setting up the custom background style
+     * of the current location panel.
+     */
     get locationBackgroundStyle() {
         return `background-image: linear-gradient(
                 rgba(0, 0, 0, 0.5), 
@@ -100,5 +225,57 @@ export default class MwSidePanel extends LightningElement {
                 background-position: center; 
                 background-repeat: no-repeat; 
                 background-size: cover;`;
+    }
+
+    /**
+     * Method handler for the Geo Location
+     * onChange event.
+     *
+     * @param {Object} event
+     */
+    geoLocationValueOnChange(event) {
+        this.locationQuery = event.target.value;
+    }
+
+    /**
+     * Method event handler to get the Geo
+     * Location attributes from the dropdown.
+     * @param {Object} event
+     */
+    handleOnclickGeoLocation(event) {
+        // Set to default values for location refresh
+        this.isDataAvailable = false;
+        this.isOneHourRainForecastAvailable = false;
+        this.secondaryWeatherIcon = "";
+
+        fireEvent(this, "changeLocationEvt", {
+            isChanged: true
+        });
+
+        let locationName = event.target.closest("li").getAttribute("data-name");
+        let locationCountry = event.target
+            .closest("li")
+            .getAttribute("data-country");
+        let locationLatitude = event.target
+            .closest("li")
+            .getAttribute("data-latitude");
+        let locationLongitude = event.target
+            .closest("li")
+            .getAttribute("data-longitude");
+        let locationState = event.target
+            .closest("li")
+            .getAttribute("data-state");
+
+        this.pickedLocationName = locationName;
+        this.pickedCountry = locationCountry;
+        this.pickedLatitude = locationLatitude;
+        this.pickedLongitude = locationLongitude;
+        this.currentLocation = `${this.pickedLocationName}, ${this.pickedCountry}`;
+        this.pickedState = locationState;
+
+        // Hide Dropdown
+        this.template
+            .querySelector(".location-dropdown")
+            .classList.remove("slds-is-open");
     }
 }
