@@ -1,12 +1,11 @@
 /**
  * @description       :
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-05-2022
+ * @last modified on  : 07-11-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public with sharing class MW_OpenWeatherService {
     private static final String OW_CURRENT_WEATHER_API = 'data/2.5/weather';
-    private static final String API_KEY = '8aebdc1199ded002eb077a3e12dadab2';
     private static final Integer DEFAULT_LATITUDE = 13;
     private static final Integer DEFAULT_LONGITUDE = 122;
     private static final String UNIT_METRIC = 'METRIC';
@@ -52,7 +51,7 @@ public with sharing class MW_OpenWeatherService {
                 '&units=' +
                 unitType +
                 '&appId=' +
-                API_KEY;
+                MW_UtilHelper.getOpenWeatherAPIKey();
 
             System.debug('@@@CHAN -> ' + endPoint);
 
