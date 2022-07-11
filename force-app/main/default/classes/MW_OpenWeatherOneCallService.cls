@@ -2,14 +2,13 @@
  * @description       : Service class for the business login of the
  *                      Open Weather API.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-08-2022
+ * @last modified on  : 07-11-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public with sharing class MW_OpenWeatherOneCallService {
     private static final String OW_CURRENT_WEATHER_API = 'data/2.5/onecall?exclude=hourly,minutely,alerts';
     private static final String OW_GEOLOCATION_API = 'geo/1.0/direct';
     private static final Integer OW_GEOLOCATION_LIMIT = 7;
-    private static final String API_KEY = '8aebdc1199ded002eb077a3e12dadab2';
     private static final Integer DEFAULT_LATITUDE = 13;
     private static final Integer DEFAULT_LONGITUDE = 122;
     private static final String UNIT_METRIC = 'METRIC';
@@ -47,7 +46,7 @@ public with sharing class MW_OpenWeatherOneCallService {
                 '&units=' +
                 unitType +
                 '&appId=' +
-                API_KEY;
+                MW_UtilHelper.getOpenWeatherAPIKey();
 
             System.debug('@@@CHAN -> ' + endPoint);
 
@@ -64,7 +63,7 @@ public with sharing class MW_OpenWeatherOneCallService {
             }
         } catch (Exception ex) {
             System.debug(
-                'Error : MW_OpenWeather.getCurrentWeatherForecast() with message ' +
+                'Error : MW_OpenWeatherOneCallService.getWeatherForecast() with message ' +
                 ex.getMessage()
             );
         }
@@ -95,7 +94,7 @@ public with sharing class MW_OpenWeatherOneCallService {
                 '&limit=' +
                 OW_GEOLOCATION_LIMIT +
                 '&appid=' +
-                API_KEY;
+                MW_UtilHelper.getOpenWeatherAPIKey();
 
             Http http = new Http();
             HttpRequest httpRequest = new HttpRequest();
@@ -109,7 +108,7 @@ public with sharing class MW_OpenWeatherOneCallService {
             }
         } catch (Exception ex) {
             System.debug(
-                'Error : MW_OpenWeather.getGeoLocations() with message ' +
+                'Error : MW_OpenWeatherOneCallService.getGeoLocations() with message ' +
                 ex.getMessage()
             );
         }
