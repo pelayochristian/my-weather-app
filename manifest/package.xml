@@ -11,6 +11,7 @@
 		<members>MW_OpenWeatherOneCall_Test</members>
 		<members>MW_OpenWeatherService</members>
 		<members>MW_OpenWeather_Test</members>
+		<members>MW_UtilHelper</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
