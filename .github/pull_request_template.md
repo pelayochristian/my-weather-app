@@ -2,9 +2,9 @@
 
 Please include a summary of the change and what has changed.
 
-### Github Project Ticket
+### Github Project Ticket(s)
 
-https://github.com/pelayochristian/my-weather-app/issues/xx
+- [x] https://github.com/pelayochristian/my-weather-app/issues/xx
 
 ### Apex Tests to Run
 
