@@ -9,7 +9,7 @@
 public class MW_OpenWeather_Test {
     // This test method should give 100% coverage
     static testMethod void testParse() {
-        System.debug('Testtt2 push-development ci');
+        System.debug('Testtt5 push-development ci');
         String json =
             '{' +
             '\"coord\": {' +
