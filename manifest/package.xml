@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
-		<members>MW_OpenWeather</members>
-		<members>MW_OpenWeatherController</members>
 		<members>MW_OpenWeatherGeoLocation</members>
 		<members>MW_OpenWeatherGeoLocation_Test</members>
 		<members>MW_OpenWeatherOneCall</members>
 		<members>MW_OpenWeatherOneCallController</members>
+		<members>MW_OpenWeatherOneCallController_Test</members>
 		<members>MW_OpenWeatherOneCallService</members>
+		<members>MW_OpenWeatherOneCallService_Test</members>
 		<members>MW_OpenWeatherOneCall_Test</members>
-		<members>MW_OpenWeatherService</members>
-		<members>MW_OpenWeather_Test</members>
 		<members>MW_UtilHelper</members>
+		<members>MW_UtilHelper_Test</members>
+		<members>MockCalloutService</members>
+		<members>MockCalloutService_Test</members>
 		<name>ApexClass</name>
 	</types>
 	<types>
