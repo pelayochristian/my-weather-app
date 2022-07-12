@@ -1,7 +1,7 @@
 /**
  * @description       :
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-11-2022
+ * @last modified on  : 07-12-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 
@@ -9,7 +9,7 @@
 public class MW_OpenWeather_Test {
     // This test method should give 100% coverage
     static testMethod void testParse() {
-        System.debug('Test5 CI');
+        System.debug('Test push-development ci');
         String json =
             '{' +
             '\"coord\": {' +
