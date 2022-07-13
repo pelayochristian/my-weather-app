@@ -10,7 +10,9 @@ on:
             - "force-app/**"
 
 jobs:
-    deploy-main-branch-to-main-org:
+    # Trigger the creation of the scratch org and run Apex
+    # test and upload the result to the CodeCov.
+    trigger-test-coverage-on-scratch-org:
         runs-on: ubuntu-latest
         if: ${{ github.actor != 'dependabot[bot]' }}
         steps:
@@ -67,3 +69,50 @@ jobs:
             - name: "Delete scratch org"
               if: always()
               run: sfdx force:org:delete -p -u ci-org
+
+    # This job trigger the deployment of main branch
+    # to the main development org
+    deploy-main-branch-to-main-development-org:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: "Install Salesforce CLI"
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # install SFDX-Git-Delta plugin - https://github.com/scolladon/sfdx-git-delta
+            - name: "Installing sfdx git delta"
+              run: |
+                  echo y | sfdx plugins:install sfdx-git-delta
+                  sfdx plugins
+
+            # Checkout the source code
+            - name: "Checkout source code"
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+
+            # Store secret for both otgs
+            - name: "Populate auth file with SFDX_URL secret of the main development org"
+              shell: bash
+              run: |
+                  echo ${{ secrets.SFDX_MAIN_URL}} > ./SFDX_MAIN_URL.txt
+            - name: "Create delta packages for new, modified or deleted metadata"
+              run: |
+                  mkdir changed-sources
+                  sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output changed-sources/ --generate-delta --source force-app/
+
+            # Authenticate to org
+            - name: "Authenticate to Main Org"
+              run: sfdx auth:sfdxurl:store -f ./SFDX_MAIN_URL.txt -s -a mainorg
+
+            - name: "Deploy the entire branch to Main org"
+              run: sfdx force:source:deploy -p force-app
+
+            - name: "Deploy destructive changes (if any) to Main org"
+              run: sfdx force:mdapi:deploy -d "changed-sources/destructiveChanges" --checkonly --ignorewarnings
