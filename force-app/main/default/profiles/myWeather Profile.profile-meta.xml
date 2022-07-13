@@ -1,9 +1,5 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <classAccesses>
-        <apexClass>MW_OpenWeatherController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
     <classAccesses>
         <apexClass>MW_OpenWeatherGeoLocation</apexClass>
         <enabled>true</enabled>
@@ -21,24 +17,36 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MW_OpenWeatherOneCallController_Test</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>MW_OpenWeatherOneCallService</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MW_OpenWeatherOneCallService_Test</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>MW_OpenWeatherOneCall_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MW_OpenWeatherService</apexClass>
+        <apexClass>MW_UtilHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MW_OpenWeather_Test</apexClass>
+        <apexClass>MW_UtilHelper_Test</apexClass>
         <enabled>false</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>MW_UtilHelper</apexClass>
+        <apexClass>MockCalloutService</apexClass>
         <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MockCalloutService_Test</apexClass>
+        <enabled>false</enabled>
     </classAccesses>
     <custom>true</custom>
     <customMetadataTypeAccesses>
