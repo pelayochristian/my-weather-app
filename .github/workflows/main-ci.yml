@@ -1,0 +1,52 @@
+# This is a basic workflow to help you get started with Actions
+name: Main CI
+
+# Controls when the workflow will run
+on:
+    # Triggers the workflow on push or pull request events but only for the "main" branch
+    push:
+        branches: ["main"]
+        paths:
+            - "force-app/**"
+
+jobs:
+    deploy-main-branch-to-main-org:
+        runs-on: ubuntu-latest
+        if: ${{ github.actor != 'dependabot[bot]' }}
+        steps:
+            # Install Salesforce CLI
+            - name: "Install Salesforce CLI"
+              run: |
+                  wget https://developer.salesforce.com/media/salesforce-cli/sfdx/channels/stable/sfdx-linux-x64.tar.xz
+                  mkdir ~/sfdx
+                  tar xJf sfdx-linux-x64.tar.xz -C ~/sfdx --strip-components 1
+                  echo "$HOME/sfdx/bin" >> $GITHUB_PATH
+                  ~/sfdx/bin/sfdx version
+
+            # Checkout the source code
+            - name: "Checkout source code"
+              uses: actions/checkout@v2
+              with:
+                  fetch-depth: 0
+
+            # Store secret for both otgs
+            - name: "Populate auth file with SFDX_URL secret of the integration orgs"
+              shell: bash
+              run: |
+                  echo ${{ secrets.SFDX_MAIN_URL}} > ./SFDX_MAIN_URL.txt
+
+            # Authenticate to org
+            - name: "Authenticate to Integration Org"
+              run: sfdx auth:sfdxurl:store -f ./SFDX_MAIN_URL.txt -s -a maindev
+
+            # Create Scratch Org
+            - name: Create Scratch Org
+              run: sfdx force:org:create --targetdevhubusername maindev --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --durationdays 1
+
+            # Deploy Source to Scratch Org
+            - name: Deploy source
+              run: sfdx force:source:push
+
+            # Run Apex Test from the Scratch Org
+            - name: Run Apex tests
+              run: sfdx force:apex:test:run --codecoverage --resultformat human -d ./
