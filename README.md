@@ -1,5 +1,6 @@
 # Weather Dashboard on SF Experience Cloud
-![example workflow](https://github.com/pelayochristian/my-weather-app/actions/workflows/push-development-branch.yml/badge.svg)
+![example workflow](https://github.com/pelayochristian/my-weather-app/actions/workflows/main-ci.yml/badge.svg) ![example workflow](https://github.com/pelayochristian/my-weather-app/actions/workflows/push-development-branch.yml/badge.svg) [![codecov](https://codecov.io/gh/pelayochristian/my-weather-app/branch/main/graph/badge.svg?token=5CX5FT97VV)](https://codecov.io/gh/pelayochristian/my-weather-app)
+
 ## Introduction
 Created as a side project, intends to learn integration in Salesforce Platform by building a Weather Dashboard app that consumes web-service from OpenWeather API. This app is built on top of the Salesforce Experience Cloud (Community Page) using LWR Template. 
 

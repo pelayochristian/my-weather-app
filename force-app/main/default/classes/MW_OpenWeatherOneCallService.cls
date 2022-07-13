@@ -30,7 +30,7 @@ public with sharing class MW_OpenWeatherOneCallService {
         String unitType
     ) {
         MW_OpenWeatherOneCall weatherForecast = null;
-        System.debug('@@@CHAN -> test');
+        System.debug('@@@CHAN -> test5');
         try {
             longitude = longitude == null ? DEFAULT_LONGITUDE : longitude;
             latitude = latitude == null ? DEFAULT_LATITUDE : latitude;
