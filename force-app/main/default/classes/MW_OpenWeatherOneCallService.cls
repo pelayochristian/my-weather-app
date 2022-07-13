@@ -2,7 +2,7 @@
  * @description       : Service class for the business login of the
  *                      Open Weather API.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-11-2022
+ * @last modified on  : 07-13-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 public with sharing class MW_OpenWeatherOneCallService {
@@ -47,8 +47,6 @@ public with sharing class MW_OpenWeatherOneCallService {
                 unitType +
                 '&appId=' +
                 MW_UtilHelper.getOpenWeatherAPIKey();
-
-            System.debug('@@@CHAN -> ' + endPoint);
 
             Http http = new Http();
             HttpRequest httpRequest = new HttpRequest();
