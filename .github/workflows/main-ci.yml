@@ -37,16 +37,16 @@ jobs:
 
             # Authenticate to org
             - name: "Authenticate to Integration Org"
-              run: sfdx auth:sfdxurl:store -f ./SFDX_MAIN_URL.txt -s -a maindev
+              run: sfdx auth:sfdxurl:store -f ./SFDX_MAIN_URL.txt -s -a devhub
 
-            # Create Scratch Org
-            - name: Create Scratch Org
-              run: sfdx force:org:create --targetdevhubusername maindev --setdefaultusername --definitionfile config/project-scratch-def.json --setalias ciorg --durationdays 1
+            # Create scratch org
+            - name: "Create scratch org"
+              run: sfdx force:org:create -f config/project-scratch-def.json -a scratch-org -s -d 1
 
-            # Deploy Source to Scratch Org
-            - name: Deploy source
+            # Deploy source to scratch org
+            - name: "Push source to scratch org"
               run: sfdx force:source:push
 
-            # Run Apex Test from the Scratch Org
-            - name: Run Apex tests
-              run: sfdx force:apex:test:run --codecoverage --resultformat human -d ./
+            # Run Apex tests in scratch org
+            - name: "Run Apex tests"
+              run: sfdx force:apex:test:run -c -r human -d ./tests/apex -w 20
