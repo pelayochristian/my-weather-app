@@ -44,9 +44,26 @@ jobs:
               run: sfdx force:org:create -f config/project-scratch-def.json -a ci-org -d 1
 
             # Deploy source to scratch org
+            # In this project only deploy the test class and objects to scratch orgs
+            # for testing purposes.
             - name: "Push source to scratch org"
-              run: sfdx force:source:push
+              run: sfdx force:source:deploy -p "force-app/main/default/classes, force-app/main/default/objects, force-app/main/default/customMetadata" -u ci-org
 
             # Run Apex tests in scratch org
             - name: "Run Apex tests"
-              run: sfdx force:apex:test:run -c -r human -d ./tests/apex -w 20
+              run: sfdx force:apex:test:run -c -r human -d ./tests/apex -w 20 -u ci-org
+
+            # Delete temporary test file that Codecov is unable to parse
+            - name: "Delete coverage file (temporary step)"
+              run: rm ./tests/apex/test-result-707*-codecoverage.json
+
+            # Upload code coverage data
+            - name: "Upload code coverage for Apex to Codecov.io"
+              uses: codecov/codecov-action@v2.0.2
+              with:
+                  flags: Apex
+
+            # Housekeeping
+            - name: "Delete scratch org"
+              if: always()
+              run: sfdx force:org:delete -p -u ci-org
