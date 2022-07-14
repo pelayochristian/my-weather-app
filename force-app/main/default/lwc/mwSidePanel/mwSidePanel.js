@@ -1,7 +1,7 @@
 /**
  * @description       : Side Panel Section contains the business logic of the components.
  * @author            : pelayochristian.dev@gmail.com
- * @last modified on  : 07-09-2022
+ * @last modified on  : 07-14-2022
  * @last modified by  : pelayochristian.dev@gmail.com
  **/
 import { LightningElement, wire } from "lwc";
@@ -82,7 +82,6 @@ export default class MwSidePanel extends LightningElement {
             this.getSidePanelAttributes(data);
             this.getTodaysHighlightsAttribute(data);
             this.getWeekForecast(data);
-            console.log("@@@CHAN weather_forecast -> ", data);
         } else {
             if (error) {
                 console.error(
